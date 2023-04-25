@@ -1,0 +1,26 @@
+setting:
+  prefix: "&6[ 창고 ]&f"
+  details:
+    row:
+      # 줄 수
+      main: 3
+      chest: 6
+    # 추후 갯수 변경을 하실 때 주의하셔야 합니다.
+    # 설정된 갯수가 기존 있던 갯수보다 적어지면 창고 하나가 삭제됩니다.
+    slots:
+      - 10
+      - 12
+      - 14
+      - 16
+item:
+  # %index%
+  access:
+    material: CHEST
+    display: "&6&l[ %index%번 ] &f&l창고"
+    lore:
+      - "§7클릭 시 %index%번 창고를 오픈합니다."
+  denied:
+    material: ENDER_CHEST
+    display: "&6&l[ %index%번 ] &f&l창고"
+    lore:
+      - "&7%index%번 창고를 사용할 수 있는 권한이 없습니다."
