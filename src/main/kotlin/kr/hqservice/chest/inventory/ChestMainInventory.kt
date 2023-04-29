@@ -15,6 +15,7 @@ class ChestMainInventory(
 ) : ChestInventoryHolder("${player.name}님의 창고 : 메인", plugin.chestConfigRepository.mainRow, true) {
 
     private val chestConfigRepository = plugin.chestConfigRepository
+    private val chestPermissionRepository = plugin.chestPermissionRepository
     private val chestBackgroundRepository = plugin.chestBackgroundRepository
 
     private val slots = chestConfigRepository.slots
@@ -31,7 +32,7 @@ class ChestMainInventory(
         slots.forEach { slot ->
             if (slot >= preventSize) return
             val index = slots.indexOf(slot) + 1
-            val item = if (player.hasPermission("kr.hqservice.chest.use.$index")) {
+            val item = if (player.isOp || chestPermissionRepository.hasPermission(player.uniqueId, index)) {
                 chestConfigRepository.accessItem?.build(index)
             } else {
                 chestConfigRepository.deniedItem?.build(index)
@@ -51,7 +52,7 @@ class ChestMainInventory(
 
         player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1f, 1f)
 
-        if (!player.isOp && !player.hasPermission("kr.hqservice.chest.use.$index")) {
+        if (!player.isOp && !chestPermissionRepository.hasPermission(player.uniqueId, index)) {
             return
         }
         player.playSound(player.location, Sound.BLOCK_CHEST_OPEN, 0.5f, 1f)

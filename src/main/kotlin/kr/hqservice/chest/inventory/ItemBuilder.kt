@@ -28,7 +28,7 @@ class ItemBuilder {
     }
 
     fun setLore(vararg lores: String?): ItemBuilder {
-        meta.lore = Arrays.asList(*lores)
+        meta.lore = listOf(*lores)
         return this
     }
 
