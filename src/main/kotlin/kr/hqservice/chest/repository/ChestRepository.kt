@@ -16,8 +16,6 @@ class ChestRepository(plugin: Plugin) {
             val uuid = UUID.fromString(fileName)
 
             val chestData = ChestData(chestFolder, uuid)
-            chestData.load()
-
             chests[uuid] = chestData
         }
     }

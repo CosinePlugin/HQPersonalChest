@@ -1,5 +1,6 @@
 package kr.hqservice.chest.data
 
+import kr.hqservice.chest.HQPersonalChest.Companion.plugin
 import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.inventory.ItemStack
@@ -10,6 +11,7 @@ class ChestData(folder: File, owner: UUID) {
 
     private companion object {
         val air = ItemStack(Material.AIR)
+        var airs = Array(54) { ItemStack(Material.AIR) }
     }
 
     private val file = File(folder, "$owner.yml")
@@ -20,10 +22,11 @@ class ChestData(folder: File, owner: UUID) {
 
     @Suppress("unchecked_cast")
     fun load() {
+        val chestCount = plugin.chestConfigRepository.chestCount
         if (!file.exists()) {
             // 4번 상자까지 있는거임
-            repeat(4) {
-                contentsList.add(Array(54) { ItemStack(Material.AIR) })
+            repeat(chestCount) {
+                contentsList.add(airs)
             }
             return
         }
@@ -33,6 +36,9 @@ class ChestData(folder: File, owner: UUID) {
             val contents = contentsSection.getList(key) as List<ItemStack>
             val items = contents.toTypedArray()
             contentsList.add(items)
+        }
+        if (contentsList.size < chestCount) {
+            contentsList.add(airs)
         }
     }
 

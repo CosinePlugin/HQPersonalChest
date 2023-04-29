@@ -21,7 +21,7 @@ class ChestAdminCommand(private val plugin: HQPersonalChest) : CommandExecutor, 
         const val addPermission = "권한추가"
         const val removePermission = "권한제거"
         val permissionTabList = listOf(addPermission, removePermission)
-        val commandTabList = mutableListOf(open, "배경설정", "설정리로드").apply { addAll(permissionTabList) }
+        val commandTabList = mutableListOf(open, "배경설정", "설정리로드", "저장").apply { addAll(permissionTabList) }
     }
 
     private val chestConfigRepository = plugin.chestConfigRepository
@@ -65,7 +65,8 @@ class ChestAdminCommand(private val plugin: HQPersonalChest) : CommandExecutor, 
             "$prefix /창고관리 권한추가 [닉네임] [번호]",
             "$prefix /창고관리 권한제거 [닉네임] [번호]",
             "$prefix /창고관리 배경설정",
-            "$prefix /창고관리 설정리로드"
+            "$prefix /창고관리 설정리로드",
+            "$prefix /창고관리 저장"
         )
     }
 
@@ -88,6 +89,7 @@ class ChestAdminCommand(private val plugin: HQPersonalChest) : CommandExecutor, 
                 setBackground(sender)
             }
             "설정리로드" -> reload(sender)
+            "저장" -> save(sender)
         }
     }
 
@@ -159,5 +161,10 @@ class ChestAdminCommand(private val plugin: HQPersonalChest) : CommandExecutor, 
         chestPermissionRepository.reload()
         chestConfigRepository.reload()
         player.sendMessage("$prefix 설정이 리로드되었습니다.")
+    }
+
+    private fun save(sender: CommandSender) {
+        async { plugin.chestRepository.saveAll() }
+        sender.sendMessage("$prefix 창고 데이터가 저장되었습니다.")
     }
 }

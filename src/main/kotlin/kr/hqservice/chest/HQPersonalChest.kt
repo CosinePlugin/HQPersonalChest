@@ -45,7 +45,7 @@ class HQPersonalChest : JavaPlugin() {
         chestConfigRepository.load()
 
         val chestPermissionFile = CustomConfig(this, "permission.yml")
-        chestPermissionRepository = ChestPermissionRepository(chestPermissionFile, chestConfigRepository.chestCount)
+        chestPermissionRepository = ChestPermissionRepository(chestPermissionFile, chestConfigRepository)
         chestPermissionRepository.load()
 
         val chestBackgroundFile = CustomConfig(this, "background.yml")
