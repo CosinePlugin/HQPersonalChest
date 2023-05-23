@@ -21,7 +21,13 @@ class ChestInventory(
     private val chestContents = chestData.getContents(realOrder)
 
     override fun init(inventory: Inventory) {
-        inventory.contents = chestContents.copyOfRange(0, plugin.chestConfigRepository.chestRow * 9)
+        if (chestContents == null) return
+        val chestRow = plugin.chestConfigRepository.chestRow * 9
+        chestContents.forEach { (slot, item) ->
+            if (slot <= chestRow) {
+                inventory.setItem(slot, item)
+            }
+        }
     }
 
     override fun onClose(event: InventoryCloseEvent) {
